@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR & Employee Management Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>HRFlow</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-section="employees">
+                    <i class="fas fa-users"></i>
+                    <span>Employees</span>
+                </a>
+                <a href="#" class="nav-item" data-section="attendance">
+                    <i class="fas fa-clock"></i>
+                    <span>Attendance</span>
+                </a>
+                <a href="#" class="nav-item" data-section="leave">
+                    <i class="fas fa-calendar-days"></i>
+                    <span>Leave Management</span>
+                </a>
+                <a href="#" class="nav-item" data-section="payroll">
+                    <i class="fas fa-money-bill"></i>
+                    <span>Payroll</span>
+                </a>
+                <a href="#" class="nav-item" data-section="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>HR Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search employees...">
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Osman+Sheriff&background=5B7FFF&color=fff" alt="Profile">
+                        <div class="profile-info">
+                            <span class="name">Osman Sheriff</span>
+                            <span class="role">HR Manager</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Dashboard Overview</h2>
+                    <button class="export-btn" id="exportPdfBtn">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Total Employees</h3>
+                            <p class="kpi-value">245</p>
+                            <span class="kpi-change positive">↑ 12 this month</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Present Today</h3>
+                            <p class="kpi-value">198</p>
+                            <span class="kpi-change positive">80.8% attendance</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-orange">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>On Leave</h3>
+                            <p class="kpi-value">32</p>
+                            <span class="kpi-change">13.1% of staff</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-purple">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Departments</h3>
+                            <p class="kpi-value">8</p>
+                            <span class="kpi-change">All active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Analytics -->
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>Attendance Trend</h3>
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Leave Distribution</h3>
+                        <canvas id="leaveChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="activity-section">
+                    <h3>Recent Employee Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-avatar">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Smith&background=FF6B6B&color=fff" alt="">
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-text"><strong>Mohamed Conteh</strong> clocked in</p>
+                                <span class="activity-time">2 minutes ago</span>
+                            </div>
+                            <span class="activity-status success">✓ On Time</span>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-avatar">
+                                <img src="https://ui-avatars.com/api/?name=Michael+Johnson&background=4ECDC4&color=fff" alt="">
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-text"><strong>Dennis Johnson</strong> requested leave</p>
+                                <span class="activity-time">1 hour ago</span>
+                            </div>
+                            <span class="activity-status pending">⏳ Pending</span>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-avatar">
+                                <img src="https://ui-avatars.com/api/?name=Emma+Wilson&background=95E1D3&color=fff" alt="">
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-text"><strong>Emmanuel Bangura</strong> completed payroll review</p>
+                                <span class="activity-time">3 hours ago</span>
+                            </div>
+                            <span class="activity-status success">✓ Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Employees Section -->
+            <section id="employees" class="section">
+                <div class="section-header">
+                    <h2>Employee Records</h2>
+                    <button class="btn-primary" id="addEmployeeBtn">
+                        <i class="fas fa-plus"></i> Add Employee
+                    </button>
+                </div>
+
+                <div class="filter-bar">
+                    <input type="text" placeholder="Search employees..." id="employeeSearch" class="search-input">
+                    <select id="departmentFilter" class="filter-select">
+                        <option value="">All Departments</option>
+                        <option value="HR">HR</option>
+                        <option value="IT">IT</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Sales">Sales</option>
+                    </select>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="On Leave">On Leave</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table class="employees-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Department</th>
+                                <th>Position</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Attendance Section (Clock In/Out) -->
+            <section id="attendance" class="section">
+                <div class="section-header">
+                    <h2>Attendance & Time Tracking</h2>
+                </div>
+
+                <!-- Clock In/Out Interface -->
+                <div class="clock-container">
+                    <div class="clock-card">
+                        <h3>Clock In / Out</h3>
+                        <div class="current-time" id="currentTime">00:00:00</div>
+                        <div class="current-date" id="currentDate">Monday, January 1, 2024</div>
+                        
+                        <div class="clock-info">
+                            <div class="info-box">
+                                <p>Clock In Time</p>
+                                <span id="clockInTime">Not yet clocked in</span>
+                            </div>
+                            <div class="info-box">
+                                <p>Clock Out Time</p>
+                                <span id="clockOutTime">Not yet clocked out</span>
+                            </div>
+                            <div class="info-box">
+                                <p>Hours Worked</p>
+                                <span id="hoursWorked">0.00 hrs</span>
+                            </div>
+                        </div>
+
+                        <div class="clock-buttons">
+                            <button class="btn-clock-in" id="clockInBtn">
+                                <i class="fas fa-sign-in-alt"></i> Clock In
+                            </button>
+                            <button class="btn-clock-out" id="clockOutBtn" disabled>
+                                <i class="fas fa-sign-out-alt"></i> Clock Out
+                            </button>
+                            <button class="btn-reset" id="resetClockBtn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Records -->
+                <div class="attendance-records">
+                    <h3>Attendance Records</h3>
+                    <div class="table-container">
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>Date</th>
+                                    <th>Clock In</th>
+                                    <th>Clock Out</th>
+                                    <th>Hours</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leave Management Section -->
+            <section id="leave" class="section">
+                <div class="section-header">
+                    <h2>Leave Management</h2>
+                    <button class="btn-primary" id="requestLeaveBtn">
+                        <i class="fas fa-calendar-plus"></i> Request Leave
+                    </button>
+                </div>
+
+                <div class="leave-grid">
+                    <!-- Leave Balance Cards -->
+                    <div class="leave-balance-card">
+                        <h4>Vacation Days</h4>
+                        <div class="days-bar">
+                            <div class="days-used" style="width: 40%"></div>
+                        </div>
+                        <p>10 of 20 days used</p>
+                    </div>
+
+                    <div class="leave-balance-card">
+                        <h4>Sick Leave</h4>
+                        <div class="days-bar">
+                            <div class="days-used" style="width: 20%"></div>
+                        </div>
+                        <p>2 of 10 days used</p>
+                    </div>
+
+                    <div class="leave-balance-card">
+                        <h4>Casual Leave</h4>
+                        <div class="days-bar">
+                            <div class="days-used" style="width: 60%"></div>
+                        </div>
+                        <p>6 of 10 days used</p>
+                    </div>
+
+                    <div class="leave-balance-card">
+                        <h4>Maternity Leave</h4>
+                        <div class="days-bar">
+                            <div class="days-used" style="width: 0%"></div>
+                        </div>
+                        <p>0 of 90 days used</p>
+                    </div>
+                </div>
+
+                <!-- Leave Requests -->
+                <div class="leave-requests">
+                    <h3>Leave Requests</h3>
+                    <div class="filter-bar">
+                        <select id="leaveStatusFilter" class="filter-select">
+                            <option value="">All Requests</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="leave-list" id="leaveRequestsList">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payroll Section -->
+            <section id="payroll" class="section">
+                <div class="section-header">
+                    <h2>Payroll Management</h2>
+                    <button class="btn-primary" id="processPayrollBtn">
+                        <i class="fas fa-coins"></i> Process Payroll
+                    </button>
+                </div>
+
+                <!-- Payroll Summary -->
+                <div class="payroll-summary">
+                    <div class="summary-card">
+                        <h4>Total Payroll</h4>
+                        <p class="amount">$487,250</p>
+                        <span>For Current Month</span>
+                    </div>
+
+                    <div class="summary-card">
+                        <h4>Processed</h4>
+                        <p class="amount">212</p>
+                        <span>Employees</span>
+                    </div>
+
+                    <div class="summary-card">
+                        <h4>Pending</h4>
+                        <p class="amount">33</p>
+                        <span>Employees</span>
+                    </div>
+
+                    <div class="summary-card">
+                        <h4>Deductions</h4>
+                        <p class="amount">$45,320</p>
+                        <span>Total Deductions</span>
+                    </div>
+                </div>
+
+                <!-- Payroll Table -->
+                <div class="payroll-section">
+                    <h3>Employee Payroll Details</h3>
+                    <div class="filter-bar">
+                        <select id="payrollMonthFilter" class="filter-select">
+                            <option value="January">January 2024</option>
+                            <option value="February">February 2024</option>
+                            <option value="March">March 2024</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table class="payroll-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>ID</th>
+                                    <th>Salary</th>
+                                    <th>Bonus</th>
+                                    <th>Deductions</th>
+                                    <th>Net Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payrollTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="section">
+                <div class="section-header">
+                    <h2>HR Analytics & Reports</h2>
+                    <button class="btn-primary" id="downloadReportBtn">
+                        <i class="fas fa-download"></i> Download Report
+                    </button>
+                </div>
+
+                <div class="analytics-grid">
+                    <!-- Employee Distribution -->
+                    <div class="chart-container large">
+                        <h3>Employee Distribution by Department</h3>
+                        <canvas id="departmentChart"></canvas>
+                    </div>
+
+                    <!-- Salary Range -->
+                    <div class="chart-container large">
+                        <h3>Salary Distribution</h3>
+                        <canvas id="salaryChart"></canvas>
+                    </div>
+
+                    <!-- Turnover Rate -->
+                    <div class="chart-container">
+                        <h3>Employee Turnover (12 Months)</h3>
+                        <canvas id="turnoverChart"></canvas>
+                    </div>
+
+                    <!-- Leave Analysis -->
+                    <div class="chart-container">
+                        <h3>Leave Type Analysis</h3>
+                        <canvas id="leaveAnalysisChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Statistics Table -->
+                <div class="statistics-section">
+                    <h3>Department Statistics</h3>
+                    <div class="table-container">
+                        <table class="stats-table">
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Total Employees</th>
+                                    <th>Avg Salary</th>
+                                    <th>Turnover Rate</th>
+                                    <th>Avg Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statsTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add/Edit Employee Modal -->
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Employee</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="employeeForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="phone">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Department</label>
+                        <select id="department" required>
+                            <option value="">Select Department</option>
+                            <option value="HR">HR</option>
+                            <option value="IT">IT</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Sales">Sales</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Position</label>
+                        <input type="text" id="position" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Salary</label>
+                        <input type="number" id="salary" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="employeeStatus" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Save Employee</button>
+                    <button type="button" class="btn-secondary" onclick="closeEmployeeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Leave Request Modal -->
+    <div id="leaveModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Request Leave</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="leaveForm" class="modal-form">
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select id="leaveType" required>
+                        <option value="">Select Leave Type</option>
+                        <option value="Vacation">Vacation</option>
+                        <option value="Sick Leave">Sick Leave</option>
+                        <option value="Casual Leave">Casual Leave</option>
+                        <option value="Maternity Leave">Maternity Leave</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>From Date</label>
+                        <input type="date" id="fromDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" id="toDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Reason</label>
+                    <textarea id="leaveReason" rows="4"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Submit Request</button>
+                    <button type="button" class="btn-secondary" onclick="closeLeaveModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
